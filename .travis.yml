@@ -8,6 +8,5 @@ matrix:
       sudo: true
 install:
   - pip install -e .
-  - pip install pytest
 script:
   - python -c "import abtesting"
