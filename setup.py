@@ -11,6 +11,7 @@ setup(
     license='MIT',
     packages=['abtesting'],
     install_requires=[
+        'future-fstrings==0.4.4',
         'ipython==7.2.0',
         'matplotlib==3.0.2',
         'numpy==1.15.4',

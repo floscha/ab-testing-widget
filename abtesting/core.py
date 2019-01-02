@@ -1,3 +1,4 @@
+# -*- coding: future_fstrings -*-
 from typing import List, Tuple
 
 from IPython.display import HTML, display
