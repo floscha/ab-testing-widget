@@ -1,6 +1,8 @@
 # -*- coding: future_fstrings -*-
 from typing import List
 
+import pandas as pd
+
 
 def build_header_html():
     # Use H2 for cell title since H1 should be used for the notebook's title
@@ -36,9 +38,7 @@ def build_summary_html():
     '''
 
 
-def build_treatments_html(groups: List[str],
-                          conversions: List[int],
-                          totals: List[int]):
+def build_treatments_html(df: pd.DataFrame):
     return f'''
         <table width="380">
             <thead>
@@ -51,16 +51,16 @@ def build_treatments_html(groups: List[str],
             </thead>
             <tbody>
                 <tr>
-                    <td>{groups[0]}</td>
-                    <td>{conversions[0]}</td>
-                    <td>{totals[0]}</td>
-                    <td>{(conversions[0] / totals[0] * 100):.2f}%</td>
+                    <td>{df.groups.iloc[0]}</td>
+                    <td>{df.conversions.iloc[0]}</td>
+                    <td>{df.totals.iloc[0]}</td>
+                    <td>{(df.conversions.iloc[0] / df.totals.iloc[0] * 100):.2f}%</td>
                 </tr>
                 <tr>
-                    <td>{groups[1]}</td>
-                    <td>{conversions[1]}</td>
-                    <td>{totals[1]}</td>
-                    <td>{(conversions[1] / totals[1] * 100):.2f}%</td>
+                    <td>{df.groups.iloc[1]}</td>
+                    <td>{df.conversions.iloc[1]}</td>
+                    <td>{df.totals.iloc[1]}</td>
+                    <td>{(df.conversions[1] / df.totals[1] * 100):.2f}%</td>
                 </tr>
             </tbody>
         </table>
