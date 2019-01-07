@@ -15,6 +15,7 @@ setup(
         'ipython==7.2.0',
         'matplotlib==3.0.2',
         'numpy==1.15.4',
+        'pandas==0.23.4',
         'seaborn==0.9.0'
     ],
     zip_safe=False
