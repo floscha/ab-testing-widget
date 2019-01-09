@@ -38,6 +38,21 @@ def build_summary_html():
     '''
 
 
+def build_treatment_rows(df: pd.DataFrame):
+    table_rows = []
+    for _, row in df.iterrows():
+        table_rows.append(f'''
+            <tr>
+                <td>{row.group}</td>
+                <td>{row.conversion}</td>
+                <td>{row.total}</td>
+                <td>{(row.conversion / row.total * 100):.2f}%</td>
+            </tr>
+        ''')
+
+    return '\n'.join(table_rows)
+
+
 def build_treatments_html(df: pd.DataFrame):
     return f'''
         <table width="380">
@@ -50,18 +65,7 @@ def build_treatments_html(df: pd.DataFrame):
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>{df.groups.iloc[0]}</td>
-                    <td>{df.conversions.iloc[0]}</td>
-                    <td>{df.totals.iloc[0]}</td>
-                    <td>{(df.conversions.iloc[0] / df.totals.iloc[0] * 100):.2f}%</td>
-                </tr>
-                <tr>
-                    <td>{df.groups.iloc[1]}</td>
-                    <td>{df.conversions.iloc[1]}</td>
-                    <td>{df.totals.iloc[1]}</td>
-                    <td>{(df.conversions[1] / df.totals[1] * 100):.2f}%</td>
-                </tr>
+                {build_treatment_rows(df)}
             </tbody>
         </table>
     '''

@@ -24,24 +24,18 @@ def display_ab_test_results(df: pd.DataFrame,
         figsize = (14, 4)
     plt.figure(figsize=figsize)
 
-    binom_control = [np.random.binomial(1, df.conversions.iloc[0]
-                                        / df.totals.iloc[0],
-                                        df.totals.iloc[0]).mean()
-                     for _ in range(sample_size)]
-    dist_control = np.random.normal(loc=np.mean(binom_control),
-                                    scale=np.std(binom_control),
-                                    size=sample_size)
-    binom_test = [np.random.binomial(1, df.conversions.iloc[1]
-                                     / df.totals.iloc[1],
-                                     df.totals.iloc[1]).mean()
-                  for _ in range(sample_size)]
-    dist_test = np.random.normal(loc=np.mean(binom_test),
-                                 scale=np.std(binom_test),
-                                 size=sample_size)
+    distributions = []
+    for _, row in df.iterrows():
+        binom = [np.random.binomial(1, row.conversion / row.total,
+                                    row.total).mean()
+                 for _ in range(sample_size)]
+        dist = np.random.normal(loc=np.mean(binom), scale=np.std(binom),
+                                size=sample_size)
+        distributions.append((row.group, dist))
 
     plt.subplot(121)
-    plot_conversion_rates(dist_control, dist_test, shade)
+    plot_conversion_rates(distributions, shade)
     plt.subplot(122)
-    plot_pairwise_differences(dist_control, dist_test, shade)
+    plot_pairwise_differences(distributions, shade)
 
     plt.show()
