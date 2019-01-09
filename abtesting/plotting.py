@@ -1,3 +1,4 @@
+# -*- coding: future_fstrings -*-
 import matplotlib.pyplot as plt
 import seaborn as sns
 
