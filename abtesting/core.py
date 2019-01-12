@@ -16,7 +16,7 @@ def display_ab_test_results(df: pd.DataFrame,
                             figsize: Tuple[int, int] = None):
     display_html(build_header_html())
 
-    display_html(build_summary_html())
+    display_html(build_summary_html(df))
 
     display_html(build_treatments_html(df))
 

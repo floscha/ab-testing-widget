@@ -9,8 +9,46 @@ def build_header_html():
     return '<h2>A/B Test Results</h2>'
 
 
-def build_summary_html():
-    return '''
+def build_summary_rows(df: pd.DataFrame):
+    control_data = df.iloc[0]
+    control_name = control_data.group
+    control_rate = control_data.conversion / control_data.total
+    confidence = 0.97
+    relative_increase = 0.096
+
+    summary_rows = []
+    for _, row in df.iloc[1:].iterrows():
+        treatment_rate = row.conversion / row.total
+        is_better_than_control = treatment_rate > control_rate
+        summary_rows.append(f'''
+            <tr>
+                <td>
+                    <b>{row.group}</b> converts
+                    {'higher' if relative_increase > 0 else 'lower'}
+                    than <b>{control_name}</b>
+                </td>
+                <td>
+                    <span class="badge"
+                          style="background:{'green' if confidence > 0.9
+                                             else 'red'};">
+                        {confidence * 100}%
+                    </span>
+                </td>
+                <td>
+                    <span class="badge"
+                          style="background:{'green' if relative_increase > 0
+                                             else 'red'};">
+                        {relative_increase * 100}%
+                    </span>
+                </td>
+            </tr>
+        ''')
+
+    return '\n'.join(summary_rows)
+
+
+def build_summary_html(df: pd.DataFrame):
+    return f'''
         <table width="380">
             <thead>
                 <tr style="text-align: right;">
@@ -20,19 +58,7 @@ def build_summary_html():
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><b>test</b> converts higher than <b>control</b></td>
-                    <td>
-                        <span class="badge" style="background:green;">
-                            97%
-                        </span>
-                    </td>
-                    <td>
-                        <span class="badge" style="background:green;">
-                            9,6%
-                        </span>
-                    </td>
-                </tr>
+                {build_summary_rows(df)}
             </tbody>
         </table>
     '''
