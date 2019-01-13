@@ -12,6 +12,7 @@ from .util import display_html
 
 def display_ab_test_results(df: pd.DataFrame,
                             sample_size: int = 10000,
+                            bootstrap_fraction = 0.1,
                             shade: bool = False,
                             figsize: Tuple[int, int] = None):
     display_html(build_header_html())
@@ -26,10 +27,16 @@ def display_ab_test_results(df: pd.DataFrame,
 
     distributions = []
     for _, row in df.iterrows():
-        binom = [np.random.binomial(1, row.conversion / row.total,
-                                    row.total).mean()
-                 for _ in range(sample_size)]
-        dist = np.random.normal(loc=np.mean(binom), scale=np.std(binom),
+        observations = np.hstack([np.ones(row.conversion),
+                                  np.zeros(row.total - row.conversion)])
+        bootstrap_size = row.total * bootstrap_fraction
+        bootstrapped_means = [np.random.choice(observations,
+                                               size=bootstrap_size,
+                                               replace=True
+                                               ).mean()
+                              for _ in range(1000)]
+        dist = np.random.normal(loc=np.mean(bootstrapped_means),
+                                scale=np.std(bootstrapped_means),
                                 size=sample_size)
         distributions.append((row.group, dist))
 
