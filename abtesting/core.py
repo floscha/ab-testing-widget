@@ -29,7 +29,7 @@ def display_ab_test_results(df: pd.DataFrame,
     for _, row in df.iterrows():
         observations = np.hstack([np.ones(row.conversion),
                                   np.zeros(row.total - row.conversion)])
-        bootstrap_size = row.total * bootstrap_fraction
+        bootstrap_size = int(row.total * bootstrap_fraction)
         bootstrapped_means = [np.random.choice(observations,
                                                size=bootstrap_size,
                                                replace=True
