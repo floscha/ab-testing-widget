@@ -14,12 +14,13 @@ def build_summary_rows(df: pd.DataFrame):
     control_name = control_data.group
     control_rate = control_data.conversion / control_data.total
     confidence = 0.97
-    relative_increase = 0.096
 
     summary_rows = []
     for _, row in df.iloc[1:].iterrows():
         treatment_rate = row.conversion / row.total
         is_better_than_control = treatment_rate > control_rate
+        relative_increase = (treatment_rate - control_rate) / control_rate
+
         summary_rows.append(f'''
             <tr>
                 <td>
@@ -38,7 +39,7 @@ def build_summary_rows(df: pd.DataFrame):
                     <span class="badge"
                           style="background:{'green' if relative_increase > 0
                                              else 'red'};">
-                        {relative_increase * 100}%
+                        {(relative_increase * 100):.2f}%
                     </span>
                 </td>
             </tr>
