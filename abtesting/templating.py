@@ -1,7 +1,10 @@
 # -*- coding: future_fstrings -*-
 from typing import List
 
+from matplotlib.colors import to_hex
 import pandas as pd
+
+from .util import get_color_palette
 
 
 def build_header_html():
@@ -14,6 +17,9 @@ def build_summary_rows(df: pd.DataFrame):
     control_name = control_data.group
     control_rate = control_data.conversion / control_data.total
     confidence = 0.97
+
+    colors = get_color_palette()
+    red, green = colors[0], colors[2]
 
     summary_rows = []
     for _, row in df.iloc[1:].iterrows():
@@ -30,15 +36,17 @@ def build_summary_rows(df: pd.DataFrame):
                 </td>
                 <td>
                     <span class="badge"
-                          style="background:{'green' if confidence > 0.9
-                                             else 'red'};">
+                          style="background:{to_hex(green)
+                                             if confidence > 0.9
+                                             else to_hex(red)};">
                         {confidence * 100}%
                     </span>
                 </td>
                 <td>
                     <span class="badge"
-                          style="background:{'green' if relative_increase > 0
-                                             else 'red'};">
+                          style="background:{to_hex(green)
+                                             if relative_increase > 0
+                                             else to_hex(red)};">
                         {(relative_increase * 100):.2f}%
                     </span>
                 </td>
