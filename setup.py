@@ -11,11 +11,11 @@ setup(
     license='MIT',
     packages=['abtesting'],
     install_requires=[
-        'future-fstrings==0.4.4',
+        'future-fstrings==0.4.5',
         'ipython==6.5.0',
-        'matplotlib==3.0.2',
-        'numpy==1.15.4',
-        'pandas==0.23.4',
+        'matplotlib==2.2.3',
+        'numpy==1.16.0',
+        'pandas==0.22.0',
         'seaborn==0.9.0'
     ],
     zip_safe=False
