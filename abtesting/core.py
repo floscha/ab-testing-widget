@@ -12,7 +12,7 @@ from .util import display_html
 
 def display_ab_test_results(df: pd.DataFrame,
                             sample_size: int = 10000,
-                            bootstrap_fraction=0.1,
+                            bootstrap_fraction: float = 0.1,
                             shade: bool = False,
                             figsize: Tuple[int, int] = None):
     if len(df) > 8:
