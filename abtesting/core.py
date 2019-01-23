@@ -15,6 +15,10 @@ def display_ab_test_results(df: pd.DataFrame,
                             bootstrap_fraction=0.1,
                             shade: bool = False,
                             figsize: Tuple[int, int] = None):
+    if len(df) > 8:
+        raise ValueError('Currently no more than 7 treatments (plus control'
+                          + ' group) are supported')
+
     display_html(build_header_html())
 
     display_html(build_summary_html(df))
